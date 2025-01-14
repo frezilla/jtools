@@ -10,5 +10,6 @@
     </properties>
     <modules>
         <module>text-device</module>
+        <module>memory</module>
     </modules>
 </project>
