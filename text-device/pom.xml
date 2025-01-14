@@ -6,7 +6,7 @@
         <artifactId>jtools</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>eu.frezilla.tools</groupId>
+    <groupId>eu.frezilla.jtools</groupId>
     <artifactId>text-device</artifactId>
     <packaging>jar</packaging>
 </project>

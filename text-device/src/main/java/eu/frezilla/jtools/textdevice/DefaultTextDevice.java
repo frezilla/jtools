@@ -1,4 +1,4 @@
-package eu.frezilla.tools.textdevice;
+package eu.frezilla.jtools.textdevice;
 
 public class DefaultTextDevice {
     
