@@ -27,11 +27,12 @@ public class BufferTest {
         Assertions.assertFalse(buffer.isEmpty());
         Assertions.assertTrue(buffer.isFull());
         
-        Assertions.assertEquals(buffer.removeFirst(), "chaine1");
-        Assertions.assertEquals(buffer.removeLast(), "chaine5");
+        Assertions.assertEquals("chaine1", buffer.removeFirst());
+        Assertions.assertEquals("chaine5", buffer.removeLast());
         
         buffer.add("chaine6");
         buffer.add("chaine7");
+        buffer.add("chaine8");
     }
 
 }
