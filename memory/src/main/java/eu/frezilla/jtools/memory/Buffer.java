@@ -57,7 +57,7 @@ public final class Buffer<T> {
         T element = datas.get(indexEnd);
         datas.set(indexEnd, null);
         
-        indexEnd = indexEnd--;
+        indexEnd--;
         if (indexEnd < 0) indexEnd = capacity - 1;
         
         return element;
