@@ -20,8 +20,9 @@ public class Main {
         });
         
         TextDevice textDevice = swingDevice.toTextDevice();
-        textDevice.println("Bonjour");
-        textDevice.println("Comment ça va ?");
+        System.out.println("Texte saisie " + textDevice.readLine(">"));
+        System.out.println("Texte saisie " + textDevice.readLine(">"));
+        
     }
     
 }

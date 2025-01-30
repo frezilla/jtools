@@ -2,17 +2,22 @@ package eu.frezilla.jtools.textdevice;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.BadLocationException;
 
 public class SwingDevice extends JComponent implements TextDevice {
     
     private final SwingDeviceDocumentFilter documentFilter;
+    private boolean enterIsPressed;
     private final JTextArea jTextArea;
     
     public SwingDevice() {
@@ -21,8 +26,26 @@ public class SwingDevice extends JComponent implements TextDevice {
     
     public SwingDevice(int rows, int columns) {
         documentFilter = new SwingDeviceDocumentFilter();
+        
+        enterIsPressed = false;
+        
         jTextArea = new JTextArea(rows, columns);
+        jTextArea.setEditable(false);
         ((AbstractDocument) jTextArea.getDocument()).setDocumentFilter(documentFilter);
+        jTextArea.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent ke) {}
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enterIsPressed = true;
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {}
+        });
         
         createGUI();
     }
@@ -47,8 +70,9 @@ public class SwingDevice extends JComponent implements TextDevice {
         
         SwingUtilities.invokeLater(() -> {
             jTextArea.append(text);
-            int position = jTextArea.getDocument().getStartPosition().getOffset();
-            documentFilter.setPromptPosition(position + text.length());
+            int offset = documentFilter.getPromptPosition();
+            documentFilter.setPromptPosition(offset + text.length());
+            jTextArea.setCaretPosition(jTextArea.getDocument().getLength());
         });
         
         return this;
@@ -61,7 +85,38 @@ public class SwingDevice extends JComponent implements TextDevice {
 
     @Override
     public String readLine(String fmt, Object... params) throws TextDeviceException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String inputString = "";
+        
+        printf(fmt, params);
+        
+        TextDeviceException exception = null;
+        try {
+            jTextArea.setEditable(true);
+            
+            while (!enterIsPressed) {
+                TimeUnit.MILLISECONDS.sleep(10);
+            }
+            
+            enterIsPressed = false;
+            
+            int offset = documentFilter.getPromptPosition();
+            int caretPosition = jTextArea.getCaretPosition();
+            int length = caretPosition - 1 - offset;
+            
+            documentFilter.setPromptPosition(caretPosition);
+            
+            inputString = jTextArea.getDocument().getText(offset, length);
+            
+            jTextArea.setEditable(false);
+        } catch (BadLocationException | InterruptedException e) {
+            exception = new TextDeviceException("Erreur à la lecture de l'entrée saisie", e);
+        } finally {
+            jTextArea.setEditable(false);
+        }
+        
+        if (exception != null) throw exception;
+            
+        return inputString;
     }
 
     @Override
