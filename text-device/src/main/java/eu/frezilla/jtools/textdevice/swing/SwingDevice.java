@@ -18,7 +18,7 @@ import javax.swing.text.BadLocationException;
 
 public class SwingDevice extends JComponent implements TextDevice {
     
-    private final SwingDeviceDocumentFilter documentFilter;
+    private final SDDocumentFilter documentFilter;
     private boolean enterIsPressed;
     private final JTextArea jTextArea;
     
@@ -27,7 +27,7 @@ public class SwingDevice extends JComponent implements TextDevice {
     }
     
     public SwingDevice(int rows, int columns) {
-        documentFilter = new SwingDeviceDocumentFilter();
+        documentFilter = new SDDocumentFilter();
         
         enterIsPressed = false;
         
