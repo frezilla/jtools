@@ -1,6 +1,6 @@
 package eu.frezilla.jtools.main;
 
-import eu.frezilla.jtools.textdevice.SwingDevice;
+import eu.frezilla.jtools.textdevice.swing.SwingDevice;
 import eu.frezilla.jtools.textdevice.TextDevice;
 import eu.frezilla.jtools.textdevice.TextDeviceException;
 import javax.swing.JFrame;

@@ -1,5 +1,7 @@
-package eu.frezilla.jtools.textdevice;
+package eu.frezilla.jtools.textdevice.swing;
 
+import eu.frezilla.jtools.textdevice.TextDevice;
+import eu.frezilla.jtools.textdevice.TextDeviceException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;

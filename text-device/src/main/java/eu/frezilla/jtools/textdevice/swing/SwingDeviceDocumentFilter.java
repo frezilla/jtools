@@ -1,4 +1,4 @@
-package eu.frezilla.jtools.textdevice;
+package eu.frezilla.jtools.textdevice.swing;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
