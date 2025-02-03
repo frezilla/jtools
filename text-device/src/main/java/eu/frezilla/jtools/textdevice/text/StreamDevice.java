@@ -69,14 +69,4 @@ public class StreamDevice extends AbstractTextDevice {
         return passwd;
     }
 
-    @Override
-    protected Reader readerImpl() throws Exception {
-        return reader;
-    }
-
-    @Override
-    protected PrintWriter writerImpl() throws Exception {
-        return writer;
-    }
-    
 }

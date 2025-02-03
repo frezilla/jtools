@@ -14,6 +14,7 @@ public class Main {
         SwingDevice swingDevice = new SwingDevice();
         
         SwingUtilities.invokeLater(() -> {
+            
             jFrame.getContentPane().add(swingDevice);
             jFrame.pack();
             jFrame.setVisible(true);

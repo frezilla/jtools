@@ -43,27 +43,5 @@ abstract class AbstractTextDevice implements TextDevice {
     }
     
     protected abstract char[] readPasswordImpl(String fmt, Object... params) throws Exception;
-
-    @Override
-    public Reader reader() throws TextDeviceException {
-        try {
-            return readerImpl();
-        } catch (Exception e) {
-            throw new TextDeviceException(e);
-        }
-    }
-    
-    protected abstract Reader readerImpl() throws Exception;
-
-    @Override
-    public PrintWriter writer() throws TextDeviceException {
-        try {
-            return writerImpl();
-        } catch (Exception e) {
-            throw new TextDeviceException(e);
-        }
-    }
-    
-    protected abstract PrintWriter writerImpl() throws Exception;
     
 }

@@ -5,8 +5,6 @@ import eu.frezilla.jtools.textdevice.TextDeviceException;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.PrintWriter;
-import java.io.Reader;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -62,11 +60,6 @@ public class SwingDevice extends JComponent implements TextDevice {
     }
 
     @Override
-    public Reader reader() throws TextDeviceException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public String readLine(String fmt, Object... params) throws TextDeviceException {
         printf(fmt, params);
         return engine.read();
@@ -79,11 +72,6 @@ public class SwingDevice extends JComponent implements TextDevice {
     
     public TextDevice toTextDevice() {
         return this;
-    }
-
-    @Override
-    public PrintWriter writer() throws TextDeviceException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

@@ -2,8 +2,6 @@ package eu.frezilla.jtools.textdevice.text;
 
 import eu.frezilla.jtools.textdevice.TextDevice;
 import java.io.Console;
-import java.io.PrintWriter;
-import java.io.Reader;
 import java.util.Objects;
 
 public class ConsoleDevice extends AbstractTextDevice {
@@ -38,16 +36,6 @@ public class ConsoleDevice extends AbstractTextDevice {
     @Override
     protected char[] readPasswordImpl(String fmt, Object... params) throws Exception {
         return console.readPassword(fmt, params);
-    }
-
-    @Override
-    protected Reader readerImpl() throws Exception {
-        return console.reader();
-    }
-
-    @Override
-    protected PrintWriter writerImpl() throws Exception {
-        return console.writer();
     }
 
 }
