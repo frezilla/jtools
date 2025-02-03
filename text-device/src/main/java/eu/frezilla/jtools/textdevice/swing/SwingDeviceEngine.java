@@ -10,24 +10,28 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-import lombok.Getter;
 import lombok.NonNull;
 
 final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
     
+    private final char echoPassword;
     private boolean enterPressed;
     private final JTextArea jTextArea;
-    @Getter private volatile int offset;
+    private int offset;
+    private StringBuilder passwordRecord;
+    private boolean passwordMode;
     
     public SwingDeviceEngine(JTextArea jTextArea) {
-        this(jTextArea, 0);
+        this(jTextArea, '#');
     }
     
-    public SwingDeviceEngine(JTextArea jTextArea, int offset) {
+    public SwingDeviceEngine(JTextArea jTextArea, char echoPassword) {
+        this.echoPassword = echoPassword;
         this.enterPressed = false;
         this.jTextArea = Objects.requireNonNull(jTextArea);
-
-        setOffset(offset);
+        if (offset < 0) throw new IllegalArgumentException("La valeur du paramètre offset n'est pas autorisée");
+        this.offset = 0;        
+        this.passwordMode = false;
     }
     
     @Override
@@ -40,7 +44,7 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            this.enterPressed = true;
+            this.enterPressed = true;            
         }
     }
 
@@ -48,23 +52,31 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
     public void keyReleased(KeyEvent e) {}
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+        if (passwordMode && !enterPressed) {
+            passwordRecord.append(e.getKeyChar());
+            
+            SwingUtilities.invokeLater(() -> {
+                jTextArea.append(String.valueOf(echoPassword));
+                try {
+                    jTextArea.getDocument().remove(jTextArea.getCaretPosition() - 2, 1);
+                } catch (BadLocationException ex) {}
+            });
+            
+        }
+    }
     
     public String read() throws TextDeviceException {
-        String inputString = "";
-        
+        String inputString = "";        
         TextDeviceException exception = null;
         
         try {
             jTextArea.setEditable(true);
 
-            while (!enterPressed) {
-                TimeUnit.MILLISECONDS.sleep(10);
-            }
+            while (!enterPressed) TimeUnit.MILLISECONDS.sleep(10);
             
             int caretPosition = jTextArea.getCaretPosition();
-            int length = caretPosition - 1 - offset;
-            
+            int length = (caretPosition - 1) - offset;
             inputString = jTextArea.getDocument().getText(offset, length);
             
             offset = caretPosition;
@@ -76,6 +88,30 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
         }
         
         if (exception != null) throw exception;
+        
+        return inputString;
+    }
+    
+    public String readPassword() {
+        String inputString = "";
+        
+        try {
+            jTextArea.setEditable(true);
+            passwordMode = true;
+            passwordRecord = new StringBuilder();
+            
+            while (!enterPressed) TimeUnit.MILLISECONDS.sleep(10);
+        
+            inputString = passwordRecord.toString();
+        } catch (InterruptedException e) {       
+            
+        } finally {
+            jTextArea.setEditable(false);
+            enterPressed = false;
+            passwordMode = false;
+        }
+        
+        System.out.println(inputString);
         
         return inputString;
     }
@@ -93,11 +129,6 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
             super.replace(fb, offset, length, text, attrs);
         }
     }    
-
-    public void setOffset(int offset) {
-        if (offset < 0) throw new IllegalArgumentException("La valeur du paramètre offset n'est pas autorisée");
-        this.offset = offset;
-    }
     
     public void write(@NonNull String text) {
         SwingUtilities.invokeLater(() -> {

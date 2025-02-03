@@ -67,7 +67,8 @@ public class SwingDevice extends JComponent implements TextDevice {
 
     @Override
     public char[] readPassword(String fmt, Object... params) throws TextDeviceException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        printf(fmt, params);
+        return engine.readPassword().toCharArray();
     }
     
     public TextDevice toTextDevice() {

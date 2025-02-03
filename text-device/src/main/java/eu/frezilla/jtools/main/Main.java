@@ -21,9 +21,9 @@ public class Main {
         });
         
         TextDevice textDevice = swingDevice.toTextDevice();
-        System.out.println("Texte saisie " + textDevice.readLine(">"));
-        System.out.println("Texte saisie " + textDevice.readLine(">"));
-        
+        //System.out.println("Texte saisie " + textDevice.readLine(">"));
+        //System.out.println("Texte saisie " + textDevice.readLine(">"));
+        System.out.println("Texte saisie " + textDevice.readPassword(">"));
     }
     
 }
