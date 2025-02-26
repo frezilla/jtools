@@ -111,8 +111,6 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
             passwordMode = false;
         }
         
-        System.out.println(inputString);
-        
         return inputString;
     }
     

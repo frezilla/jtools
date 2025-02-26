@@ -3,6 +3,7 @@ package eu.frezilla.jtools.main;
 import eu.frezilla.jtools.textdevice.swing.SwingDevice;
 import eu.frezilla.jtools.textdevice.TextDevice;
 import eu.frezilla.jtools.textdevice.TextDeviceException;
+import eu.frezilla.jtools.textdevice.swing.SwingDeviceConfig;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -23,7 +24,7 @@ public class Main {
         TextDevice textDevice = swingDevice.toTextDevice();
         //System.out.println("Texte saisie " + textDevice.readLine(">"));
         //System.out.println("Texte saisie " + textDevice.readLine(">"));
-        System.out.println("Texte saisie " + textDevice.readPassword(">"));
+        System.out.println("Texte saisie " + new String(textDevice.readPassword(">")));
     }
     
 }

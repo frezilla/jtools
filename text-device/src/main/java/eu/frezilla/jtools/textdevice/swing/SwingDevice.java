@@ -17,14 +17,18 @@ public class SwingDevice extends JComponent implements TextDevice {
     private final SwingDeviceEngine engine;
     
     public SwingDevice() {
-        this(20, 80);
+        this(25, 80);
     }
     
     public SwingDevice(int rows, int columns) {
-        jTextArea = new JTextArea(rows, columns);
-        jTextArea.setBackground(new Color(23, 28, 34));
-        jTextArea.setForeground(new Color(6, 200, 109));
-        jTextArea.setCaretColor(new Color(6, 200, 109));
+        this(SwingDeviceConfig.getBuilder().rows(rows).columns(columns).build());
+    }
+    
+    public SwingDevice(SwingDeviceConfig config) {
+        jTextArea = new JTextArea(config.getRows(), config.getColumns());
+        jTextArea.setBackground(config.getBackgroundColor());
+        jTextArea.setForeground(config.getForeGroundColor());
+        jTextArea.setCaretColor(config.getCaretColor());
         jTextArea.setCaretPosition(0);
         jTextArea.setEditable(false);
         
