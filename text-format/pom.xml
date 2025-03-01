@@ -11,4 +11,11 @@
     <properties>
         <exec.mainClass>eu.frezilla.textformat.TextFormat</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>        
+    </dependencies>
 </project>
