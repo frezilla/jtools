@@ -21,24 +21,34 @@ public final class DisplayAttribute {
     
     private final int code;
     private final ColorParameters colorParameters;
-    private final String description;
+    private final String name;
+    private final String note;
 
     DisplayAttribute(int code) {
-        this(code, null, null);
+        this(code, null, null, null);
     }
 
-    public DisplayAttribute(int code, String description) {
-        this(code, null, description);
+    public DisplayAttribute(int code, String name) {
+        this(code, null, name, null);
+    }
+    
+    public DisplayAttribute(int code, String name, String note) {
+        this(code, null, name, note);
     }
     
     public DisplayAttribute(int code, ColorParameters colorParameters) {
-        this(code, colorParameters, null);
+        this(code, colorParameters, null, null);
     }
-        
-    public DisplayAttribute(int code, ColorParameters colorParameters, String description) {
+    
+    public DisplayAttribute(int code, ColorParameters colorParameters, String name) {
+        this(code, colorParameters, name, null);
+    }
+    
+    public DisplayAttribute(int code, ColorParameters colorParameters, String name, String note) {
         this.code = checkCode(code, "Le code de l'attribut n'est pas supporté");
         this.colorParameters = checkParameters(code, colorParameters, "Les paramètres ne sont pas valides pour ce code d'attribut");
-        this.description = description;
+        this.name = name;
+        this.note = note;
     }
     
     private int checkCode(int code, String msg) {
