@@ -1,55 +1,65 @@
 package eu.frezilla.textformat.sequences.ansi;
 
-import java.util.Objects;
+import eu.frezilla.textformat.sequences.ansi.custom.ColorParameters;
+import java.util.Arrays;
+import java.util.List;
+import lombok.Data;
 
+@Data
 public final class DisplayAttribute {
     
-    private final ColorMode colorMode;
+    private static final List<Integer> AVALAIBLE_CODES = Arrays.asList(
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+        39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 58,
+        59, 60, 61, 62, 63, 64, 65, 73, 74, 75, 90, 91, 92, 93, 94, 95, 96, 97,
+        100, 101, 102, 103, 104, 105, 106, 107
+    );
+    
+    private static final List<Integer> AVALAIBLE_CODES_WITH_PARAMETERS = Arrays.asList(38, 48, 58);
+    
+    
+    private final int code;
+    private final ColorParameters colorParameters;
     private final String description;
-    
-    private final Integer n;
-    private final Integer r;
-    private final Integer g;
-    private final Integer b;
 
-    DisplayAttribute(int n) {
-        this(null, n);
+    DisplayAttribute(int code) {
+        this(code, null, null);
     }
 
-    DisplayAttribute(ColorMode colorMode, int...parameters) {
-        this(colorMode, null, parameters);
+    public DisplayAttribute(int code, String description) {
+        this(code, null, description);
     }
     
-    DisplayAttribute(ColorMode colorMode, String description, int...parameters) {
-        if (parameters == null) throw new IllegalArgumentException();
+    public DisplayAttribute(int code, ColorParameters colorParameters) {
+        this(code, colorParameters, null);
+    }
         
-        if (colorMode == null || Objects.equals(colorMode, ColorMode.COLOR_256)) {
-            if (parameters.length != 1) throw new IllegalArgumentException();
-            
-            if (colorMode == null) {
-                
-            } else if (parameters[0] < 0 || parameters[0] > 255) throw new IllegalArgumentException("La valeur du paramètre doit appartenir à l'intervace [0;255]");
-            
-            this.n = parameters[0];
-            this.r = null;
-            this.g = null;
-            this.b = null;
-            
-        } else if (Objects.equals(colorMode, ColorMode.TRUE_COLOR)) {
-            if (parameters.length != 3) throw new IllegalArgumentException();
-            
-            this.n 
-            this.r = parameters[0];
-            this.g = parameters[1];
-            this.b = parameters[2];
-        }
-        
-        this.colorMode = colorMode;
+    public DisplayAttribute(int code, ColorParameters colorParameters, String description) {
+        this.code = checkCode(code, "Le code de l'attribut n'est pas supporté");
+        this.colorParameters = checkParameters(code, colorParameters, "Les paramètres ne sont pas valides pour ce code d'attribut");
         this.description = description;
     }
     
-    public String stringValue() {
-        return String.format("%d", n);
+    private int checkCode(int code, String msg) {
+        if (AVALAIBLE_CODES.stream().filter(i -> i == code).count() != 1L) throw new IllegalArgumentException(msg);
+        return code;
     }
     
+    private ColorParameters checkParameters(int code, ColorParameters colorParameters, String msg) {
+        if ((AVALAIBLE_CODES_WITH_PARAMETERS.stream().filter(i -> i == code).count() != 1L) 
+                || (colorParameters == null)) { 
+            throw new IllegalArgumentException(msg);
+        }
+        return colorParameters;
+    }
+    
+    public String stringValue() {
+        if (colorParameters == null) {
+            return String.format("%d", code);
+        } else {
+            return String.format("%d;%s", code, colorParameters.stringValue());
+        }
+    }
+
 }
