@@ -2,7 +2,6 @@ package eu.frezilla.jtools.textdevice.swing;
 
 import eu.frezilla.jtools.textdevice.TextDevice;
 import eu.frezilla.jtools.textdevice.TextDeviceException;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JComponent;
@@ -27,7 +26,7 @@ public class SwingDevice extends JComponent implements TextDevice {
     public SwingDevice(SwingDeviceConfig config) {
         jTextArea = new JTextArea(config.getRows(), config.getColumns());
         jTextArea.setBackground(config.getBackgroundColor());
-        jTextArea.setForeground(config.getForeGroundColor());
+        jTextArea.setForeground(config.getForegroundColor());
         jTextArea.setCaretColor(config.getCaretColor());
         jTextArea.setCaretPosition(0);
         jTextArea.setEditable(false);
