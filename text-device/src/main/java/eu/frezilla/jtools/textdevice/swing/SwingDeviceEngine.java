@@ -10,7 +10,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-import lombok.NonNull;
 
 final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
     
@@ -49,7 +48,9 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) { 
+        // Do nothing 
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -60,7 +61,9 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
                 jTextArea.append(String.valueOf(echoPassword));
                 try {
                     jTextArea.getDocument().remove(jTextArea.getCaretPosition() - 2, 1);
-                } catch (BadLocationException ex) {}
+                } catch (BadLocationException ex) {
+                    // Do nothing
+                }
             });
             
         }
@@ -82,6 +85,7 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
             offset = caretPosition;
         } catch (BadLocationException | InterruptedException e) {
             exception = new TextDeviceException("Erreur à la lecture de la saisie de l'utilisateur", e);
+            Thread.currentThread().interrupt();
         } finally {
             jTextArea.setEditable(false);
             enterPressed = false;
@@ -103,8 +107,8 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
             while (!enterPressed) TimeUnit.MILLISECONDS.sleep(10);
         
             inputString = passwordRecord.toString();
-        } catch (InterruptedException e) {       
-            
+        } catch (InterruptedException e) {  
+            Thread.currentThread().interrupt();            
         } finally {
             jTextArea.setEditable(false);
             enterPressed = false;
@@ -128,7 +132,9 @@ final class SwingDeviceEngine extends DocumentFilter implements KeyListener {
         }
     }    
     
-    public void write(@NonNull String text) {
+    public void write(String text) {
+        if (text == null) throw new IllegalArgumentException("text parameter is null");
+        
         SwingUtilities.invokeLater(() -> {
             jTextArea.append(text);
             offset = offset + text.length();

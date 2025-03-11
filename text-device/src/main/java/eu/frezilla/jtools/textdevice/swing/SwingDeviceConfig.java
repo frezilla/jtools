@@ -2,9 +2,7 @@ package eu.frezilla.jtools.textdevice.swing;
 
 import java.awt.Color;
 import java.util.Objects;
-import lombok.Getter;
 
-@Getter
 public final class SwingDeviceConfig {
     
     private static final SwingDeviceConfig DEFAULT = new Builder().build();
@@ -30,6 +28,16 @@ public final class SwingDeviceConfig {
     public static SwingDeviceConfig getDefault() {
         return DEFAULT;
     }
+    
+    public Color getBackgroundColor() { return backgroundColor; }
+    
+    public Color getCaretColor() { return caretColor; }
+    
+    public int getColumns() { return columns; }
+    
+    public Color getForegroundColor() { return foregroundColor; }
+    
+    public int getRows()  { return rows; }
     
     public static final class Builder {
         

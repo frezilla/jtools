@@ -9,11 +9,4 @@
     <groupId>eu.frezilla.jtools</groupId>
     <artifactId>text-device</artifactId>
     <packaging>jar</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 </project>
