@@ -1,7 +1,6 @@
 package eu.frezilla.textformat.sequences.ansi;
 
 import eu.frezilla.textformat.sequences.ansi.custom.ColorParameters;
-import lombok.Getter;
 
 public enum DisplayAttributes {
     RESET(0, null, "Reset or normal", "All attributes become turned off."),
@@ -84,10 +83,12 @@ public enum DisplayAttributes {
     BRIGHT_BACKGROUND_COLOR_CYAN(106, null, "Set bright background color to cyan", "Not in standard; originally implemented by aixterm"),
     BRIGHT_BACKGROUND_COLOR_WHITE(107, null, "Set bright background color to white", "Not in standard; originally implemented by aixterm");
     
-    @Getter private final DisplayAttribute displayAttribute;
+    private final DisplayAttribute displayAttribute;
 
     private DisplayAttributes(int n, ColorParameters colorParameters, String name, String note) {
         this.displayAttribute = new DisplayAttribute(n, colorParameters, name, note);
     }
+    
+    public DisplayAttribute getDisplayAttribute() { return this.displayAttribute; }
     
 }

@@ -3,9 +3,7 @@ package eu.frezilla.textformat.sequences.ansi;
 import eu.frezilla.textformat.sequences.ansi.custom.ColorParameters;
 import java.util.Arrays;
 import java.util.List;
-import lombok.Data;
 
-@Data
 public final class DisplayAttribute {
     
     private static final List<Integer> AVALAIBLE_CODES = Arrays.asList(
@@ -18,13 +16,12 @@ public final class DisplayAttribute {
     
     private static final List<Integer> AVALAIBLE_CODES_WITH_PARAMETERS = Arrays.asList(38, 48, 58);
     
-    
     private final int code;
     private final ColorParameters colorParameters;
     private final String name;
     private final String note;
 
-    DisplayAttribute(int code) {
+    public DisplayAttribute(int code) {
         this(code, null, null, null);
     }
 
@@ -62,6 +59,22 @@ public final class DisplayAttribute {
             throw new IllegalArgumentException(msg);
         }
         return colorParameters;
+    }
+    
+    public int getCode() {
+        return code;
+    }
+    
+    public ColorParameters getColorParameters() {
+        return colorParameters;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getNote() {
+        return note;
     }
     
     public String stringValue() {
