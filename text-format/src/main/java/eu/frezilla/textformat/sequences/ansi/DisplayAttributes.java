@@ -1,6 +1,7 @@
 package eu.frezilla.textformat.sequences.ansi;
 
 import eu.frezilla.textformat.sequences.ansi.custom.ColorParameters;
+import java.util.Objects;
 
 public enum DisplayAttributes {
     RESET(0, null, "Reset or normal", "All attributes become turned off."),
@@ -87,6 +88,17 @@ public enum DisplayAttributes {
 
     private DisplayAttributes(int n, ColorParameters colorParameters, String name, String note) {
         this.displayAttribute = new DisplayAttribute(n, colorParameters, name, note);
+    }
+    
+    public static DisplayAttributes getByCode(int code) {
+        DisplayAttributes resultEnum = null;
+        for (DisplayAttributes currentEnum : DisplayAttributes.values()) {
+            if (Objects.equals(currentEnum.getDisplayAttribute().getCode(), code)) {
+                resultEnum = currentEnum;
+                break;
+            }
+        }
+        return resultEnum;
     }
     
     public DisplayAttribute getDisplayAttribute() { return this.displayAttribute; }

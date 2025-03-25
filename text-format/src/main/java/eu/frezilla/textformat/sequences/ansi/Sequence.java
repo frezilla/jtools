@@ -3,10 +3,11 @@ package eu.frezilla.textformat.sequences.ansi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sequence {
+public final class Sequence {
 
-    private static final String SEQUENCE_END = "m";
-    private static final String SEQUENCE_START = "\033[";
+    static final String SEQUENCE_END = "m";
+    static final String SEQUENCE_SEPARATOR = ";";
+    static final String SEQUENCE_START = "\033[";
 
     private final List<DisplayAttribute> attributes;
 
@@ -21,6 +22,10 @@ public class Sequence {
         
         attributes.add(attribute);
         return this;
+    }
+    
+    public static Sequence fromString(String s) throws AnsiParseException {
+        return new StringParser().parse(s);
     }
 
     public String stringValue() {

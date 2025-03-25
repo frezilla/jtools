@@ -1,6 +1,10 @@
 package eu.frezilla.textformat.sequences.ansi.custom;
 
+import static eu.frezilla.textformat.sequences.ansi.custom.ColorPrefixEnum.TRUECOLOR;
+
 final class TrueColor extends AbstractCP {
+    
+    public static final String PREFIX = "2";
     
     private final int r;
     private final int g;
@@ -14,7 +18,7 @@ final class TrueColor extends AbstractCP {
 
     @Override
     public String stringValue() {
-        return String.format("2;%d;%d;%d", r, g, b);
+        return String.format("%s;%d;%d;%d", TRUECOLOR.getPrefix(), r, g, b);
     }
-    
+
 }

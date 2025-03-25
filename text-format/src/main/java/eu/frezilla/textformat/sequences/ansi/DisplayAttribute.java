@@ -49,13 +49,12 @@ public final class DisplayAttribute {
     }
     
     private int checkCode(int code, String msg) {
-        if (AVALAIBLE_CODES.stream().filter(i -> i == code).count() != 1L) throw new IllegalArgumentException(msg);
+        if (!isAvalaiblesCodes(code)) throw new IllegalArgumentException(msg);
         return code;
     }
     
     private ColorParameters checkParameters(int code, ColorParameters colorParameters, String msg) {
-        if ((AVALAIBLE_CODES_WITH_PARAMETERS.stream().filter(i -> i == code).count() != 1L) 
-                || (colorParameters == null)) { 
+        if ((colorParameters == null) || !isAvailablesCodesWithParameters(code)) { 
             throw new IllegalArgumentException(msg);
         }
         return colorParameters;
@@ -75,6 +74,14 @@ public final class DisplayAttribute {
     
     public String getNote() {
         return note;
+    }
+    
+    public static boolean isAvalaiblesCodes(int code) {
+        return (AVALAIBLE_CODES.stream().filter(i -> i == code).count() == 1L);
+    }
+    
+    public static boolean isAvailablesCodesWithParameters(int code) {
+        return (AVALAIBLE_CODES_WITH_PARAMETERS.stream().filter(i -> i == code).count() == 1L);
     }
     
     public String stringValue() {
