@@ -54,7 +54,7 @@ public final class DisplayAttribute {
     }
     
     private ColorParameters checkParameters(int code, ColorParameters colorParameters, String msg) {
-        if ((colorParameters == null) || !isAvailablesCodesWithParameters(code)) { 
+        if ((colorParameters == null) && isAvailablesCodesWithParameters(code)) { 
             throw new IllegalArgumentException(msg);
         }
         return colorParameters;

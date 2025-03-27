@@ -24,6 +24,14 @@ public final class Sequence {
         return this;
     }
     
+    public Sequence add(DisplayAttributes attribueEnum) {
+        if (attribueEnum == null) {
+            throw new IllegalArgumentException("L'attribut est null");
+        }
+        
+        return add(attribueEnum.getDisplayAttribute());        
+    }
+    
     public static Sequence fromString(String s) throws AnsiParseException {
         return new StringParser().parse(s);
     }
@@ -36,6 +44,11 @@ public final class Sequence {
         StringBuilder sb = new StringBuilder(SEQUENCE_START);
         for (DisplayAttribute attribute : attributes) {
             sb.append(attribute.stringValue());
+            sb.append(SEQUENCE_SEPARATOR);
+        }
+        String s = sb.toString();
+        if (s.endsWith(SEQUENCE_SEPARATOR)) {
+            sb = new StringBuilder(s.substring(0, s.length() - SEQUENCE_SEPARATOR.length()));
         }
         sb.append(SEQUENCE_END);
         return sb.toString();
