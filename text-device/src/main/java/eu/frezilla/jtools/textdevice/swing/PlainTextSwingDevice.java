@@ -7,23 +7,25 @@ import java.awt.GridBagLayout;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 
 public class PlainTextSwingDevice extends JComponent implements TextDevice {
     
     private final JTextArea jTextArea;
-    private final PlainTextSwingDeviceEngine engine;
+    private final PlainTextEngine engine;
     
     public PlainTextSwingDevice() {
         this(25, 80);
     }
     
     public PlainTextSwingDevice(int rows, int columns) {
-        this(PlainTextSwingDeviceConfig.getBuilder().rows(rows).columns(columns).build());
+        this(SwingDeviceConfig.getBuilder().rows(rows).columns(columns).build());
     }
     
-    public PlainTextSwingDevice(PlainTextSwingDeviceConfig config) {
+    public PlainTextSwingDevice(SwingDeviceConfig config) {
         jTextArea = new JTextArea(config.getRows(), config.getColumns());
         jTextArea.setBackground(config.getBackgroundColor());
         jTextArea.setForeground(config.getForegroundColor());
@@ -31,7 +33,7 @@ public class PlainTextSwingDevice extends JComponent implements TextDevice {
         jTextArea.setCaretPosition(0);
         jTextArea.setEditable(false);
         
-        engine = new PlainTextSwingDeviceEngine(jTextArea);
+        engine = new PlainTextEngine(jTextArea);
         
         ((AbstractDocument) jTextArea.getDocument()).setDocumentFilter(engine);
         jTextArea.addKeyListener(engine);
@@ -45,12 +47,13 @@ public class PlainTextSwingDevice extends JComponent implements TextDevice {
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 1.0; gbc.weighty = 1.0; gbc.anchor = GridBagConstraints.CENTER; gbc.fill = GridBagConstraints.BOTH;
 
         JScrollPane scrollableTextArea = new JScrollPane(jTextArea);
-        scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollableTextArea.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollableTextArea.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        super.add(scrollableTextArea, gbc);
+        component.add(scrollableTextArea, gbc);
     }
-
+    
+    
     @Override
     public TextDevice printf(String fmt, Object... params) throws TextDeviceException {
         String text = String.format(fmt, params);

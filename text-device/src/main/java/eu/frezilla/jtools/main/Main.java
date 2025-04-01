@@ -1,6 +1,6 @@
 package eu.frezilla.jtools.main;
 
-import eu.frezilla.jtools.textdevice.swing.SwingDevice;
+import eu.frezilla.jtools.textdevice.swing.PlainTextSwingDevice;
 import eu.frezilla.jtools.textdevice.TextDevice;
 import eu.frezilla.jtools.textdevice.TextDeviceException;
 import eu.frezilla.jtools.textdevice.swing.SwingDeviceConfig;
@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws TextDeviceException {
         JFrame jFrame = new JFrame("Test");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        SwingDevice swingDevice = new SwingDevice();
+        PlainTextSwingDevice swingDevice = new PlainTextSwingDevice();
         
         SwingUtilities.invokeLater(() -> {
             

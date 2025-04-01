@@ -11,7 +11,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-final class PlainTextSwingDeviceEngine extends DocumentFilter implements KeyListener {
+final class PlainTextEngine extends DocumentFilter implements KeyListener {
     
     private final char echoPassword;
     private boolean enterPressed;
@@ -20,11 +20,11 @@ final class PlainTextSwingDeviceEngine extends DocumentFilter implements KeyList
     private StringBuilder passwordRecord;
     private boolean passwordMode;
     
-    public PlainTextSwingDeviceEngine(JTextArea jTextArea) {
+    public PlainTextEngine(JTextArea jTextArea) {
         this(jTextArea, '#');
     }
     
-    public PlainTextSwingDeviceEngine(JTextArea jTextArea, char echoPassword) {
+    public PlainTextEngine(JTextArea jTextArea, char echoPassword) {
         this.echoPassword = echoPassword;
         this.enterPressed = false;
         this.jTextArea = Objects.requireNonNull(jTextArea);
