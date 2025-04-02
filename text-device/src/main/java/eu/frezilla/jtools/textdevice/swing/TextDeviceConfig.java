@@ -3,9 +3,9 @@ package eu.frezilla.jtools.textdevice.swing;
 import java.awt.Color;
 import java.util.Objects;
 
-public final class SwingDeviceConfig {
+public final class TextDeviceConfig {
     
-    private static final SwingDeviceConfig DEFAULT = new Builder().build();
+    private static final TextDeviceConfig DEFAULT = new Builder().build();
         
     private final Color backgroundColor;
     private final Color caretColor;
@@ -13,7 +13,7 @@ public final class SwingDeviceConfig {
     private final Color foregroundColor;
     private final int rows;
 
-    private SwingDeviceConfig(Color backgroundColor, Color caretColor, int columns, Color foregroundColor, int rows) {
+    private TextDeviceConfig(Color backgroundColor, Color caretColor, int columns, Color foregroundColor, int rows) {
         this.backgroundColor = Objects.requireNonNull(backgroundColor, "backgroundColor is null");
         this.caretColor = Objects.requireNonNull(caretColor, "carterColor is null");
         this.columns = columns;
@@ -25,7 +25,7 @@ public final class SwingDeviceConfig {
         return new Builder();
     }
     
-    public static SwingDeviceConfig getDefault() {
+    public static TextDeviceConfig getDefault() {
         return DEFAULT;
     }
     
@@ -53,8 +53,8 @@ public final class SwingDeviceConfig {
         public Builder foregroundColor(Color c) { this.foregroundColor = c; return this; }
         public Builder rows(int rows) { this.rows = rows; return this; }
         
-        public SwingDeviceConfig build() {
-            return new SwingDeviceConfig(backgroundColor, caretColor, columns, foregroundColor, rows);
+        public TextDeviceConfig build() {
+            return new TextDeviceConfig(backgroundColor, caretColor, columns, foregroundColor, rows);
         }
     }
 }

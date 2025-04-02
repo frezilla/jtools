@@ -12,20 +12,20 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 
-public class PlainTextSwingDevice extends JComponent implements TextDevice {
+public class PlainTextDevice extends JComponent implements TextDevice {
     
     private final JTextArea jTextArea;
     private final PlainTextEngine engine;
     
-    public PlainTextSwingDevice() {
+    public PlainTextDevice() {
         this(25, 80);
     }
     
-    public PlainTextSwingDevice(int rows, int columns) {
-        this(SwingDeviceConfig.getBuilder().rows(rows).columns(columns).build());
+    public PlainTextDevice(int rows, int columns) {
+        this(TextDeviceConfig.getBuilder().rows(rows).columns(columns).build());
     }
     
-    public PlainTextSwingDevice(SwingDeviceConfig config) {
+    public PlainTextDevice(TextDeviceConfig config) {
         jTextArea = new JTextArea(config.getRows(), config.getColumns());
         jTextArea.setBackground(config.getBackgroundColor());
         jTextArea.setForeground(config.getForegroundColor());
@@ -42,7 +42,7 @@ public class PlainTextSwingDevice extends JComponent implements TextDevice {
     }
     
     private void createGUI() {
-        super.setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 1.0; gbc.weighty = 1.0; gbc.anchor = GridBagConstraints.CENTER; gbc.fill = GridBagConstraints.BOTH;
 
@@ -50,7 +50,7 @@ public class PlainTextSwingDevice extends JComponent implements TextDevice {
         scrollableTextArea.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollableTextArea.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        component.add(scrollableTextArea, gbc);
+        add(scrollableTextArea, gbc);
     }
     
     

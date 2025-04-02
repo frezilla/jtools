@@ -10,11 +10,11 @@ import javax.swing.JTextPane;
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 
-public class StyledTextSwingDevice extends JComponent implements TextDevice {
+public class StyledTextDevice extends JComponent implements TextDevice {
     
     private final JTextPane jTextPane;
     
-    public StyledTextSwingDevice(SwingDeviceConfig config) {
+    public StyledTextDevice(TextDeviceConfig config) {
         jTextPane = new JTextPane();
         jTextPane.setBackground(config.getBackgroundColor());
         jTextPane.setForeground(config.getForegroundColor());
