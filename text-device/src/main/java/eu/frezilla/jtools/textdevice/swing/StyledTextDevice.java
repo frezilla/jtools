@@ -9,6 +9,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 public class StyledTextDevice extends JComponent implements TextDevice {
     
@@ -33,13 +36,26 @@ public class StyledTextDevice extends JComponent implements TextDevice {
         JScrollPane scrollableTextArea = new JScrollPane(jTextPane);
         scrollableTextArea.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollableTextArea.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
-
+        
         super.add(scrollableTextArea, gbc);
     }
 
     @Override
     public TextDevice printf(String fmt, Object... params) throws TextDeviceException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String text = String.format(fmt, params);
+        
+        StyledDocument doc = jTextPane.getStyledDocument();
+        try {
+            doc.insertString(
+                    doc.getLength(), 
+                    text, 
+                    StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE)
+            );
+        } catch (BadLocationException e) {
+            
+        }
+        
+        return this;
     }
 
     @Override
@@ -50,6 +66,10 @@ public class StyledTextDevice extends JComponent implements TextDevice {
     @Override
     public char[] readPassword(String fmt, Object... params) throws TextDeviceException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    public TextDevice toTextDevice() {
+        return this;
     }
     
     

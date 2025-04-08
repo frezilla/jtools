@@ -5,16 +5,18 @@ import java.util.List;
 
 public final class Buffer<T> {
 
+    private final int capacity;
     private final List<T> datas;
     private int indexEnd;
     private int indexStart;
-    private final int capacity;
+    private final int maxIndex;
     
     public Buffer(int capacity) {
         this.datas = new ArrayList<>(capacity);
         this.capacity = capacity;
         this.indexEnd = 0;
         this.indexStart = 0;
+        this.maxIndex = capacity - 1;
     }
     
     public Buffer() {
@@ -23,8 +25,17 @@ public final class Buffer<T> {
     
     public void add(T element) {
         datas.add(indexEnd, element);
-        indexEnd = indexEnd++ % capacity;
-        if (indexEnd == indexStart) indexStart = indexStart++ % capacity;        
+        indexEnd = indexEnd++;
+        if (indexEnd == maxIndex) {
+            indexEnd = 0;
+        }
+        
+        
+        indexEnd = indexEnd % capacity;
+        if (indexEnd == indexStart) {
+            indexStart = indexStart++;
+            indexStart = indexStart % capacity;
+        }
     }
     
     public boolean isEmpty() {
