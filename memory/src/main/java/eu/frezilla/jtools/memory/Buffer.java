@@ -9,14 +9,13 @@ public final class Buffer<T> {
     private final List<T> datas;
     private int indexEnd;
     private int indexStart;
-    private final int maxIndex;
     
     public Buffer(int capacity) {
         this.datas = new ArrayList<>(capacity);
         this.capacity = capacity;
         this.indexEnd = 0;
         this.indexStart = 0;
-        this.maxIndex = capacity - 1;
+        for (int i = 0; i < capacity; i++) this.datas.add(null);
     }
     
     public Buffer() {
@@ -24,40 +23,36 @@ public final class Buffer<T> {
     }
     
     public void add(T element) {
-        datas.add(indexEnd, element);
-        indexEnd = indexEnd++;
-        if (indexEnd == maxIndex) {
-            indexEnd = 0;
-        }
-        
-        
-        indexEnd = indexEnd % capacity;
-        if (indexEnd == indexStart) {
-            indexStart = indexStart++;
-            indexStart = indexStart % capacity;
-        }
+        datas.set(indexEnd, element);
+        indexEnd = incIndex(indexEnd);
+        if (indexEnd == indexStart) indexStart = incIndex(indexStart);
     }
     
+    private int decIndex(int index) {
+        if (index - 1 < 0) return capacity - 1;
+        else return index - 1;
+    }
+    
+    private int incIndex(int index) {
+        return (index + 1) % capacity;
+    }
+        
     public boolean isEmpty() {
         return indexEnd == indexStart;
     }
     
     public boolean isFull() {
-        int distance;
-        
-        if (indexEnd < indexStart) distance = indexEnd + capacity - indexStart;
-        else distance = indexEnd - indexStart;
-        
-        return distance == capacity - 1;
+        if (indexEnd > indexStart) return (indexEnd - indexStart) == (capacity - 1);
+        else return (capacity + indexEnd - indexStart) == (capacity - 1);
     }
     
     public T removeFirst() throws BufferException {
         if (isEmpty()) throw new BufferException("Le buffer est vide");
         
-        T element = datas.get(indexStart);
-        datas.set(indexStart, null);
+        int targetIndex = decIndex(indexStart);
         
-        indexStart = indexStart++ % capacity;
+        T element = datas.get(targetIndex);
+        datas.set(targetIndex, null);
         
         return element;        
     }
@@ -65,11 +60,10 @@ public final class Buffer<T> {
     public T removeLast() throws BufferException {
         if (isEmpty()) throw new BufferException("Le buffer est vide");
         
+        indexEnd = decIndex(indexEnd);
+        
         T element = datas.get(indexEnd);
         datas.set(indexEnd, null);
-        
-        indexEnd--;
-        if (indexEnd < 0) indexEnd = capacity - 1;
         
         return element;
     }
